@@ -186,12 +186,24 @@ Participações:
 ## Modelo Conceitual Inicial
 
 ```mermaid
-erDiagram
-    PESSOA ||--o{ USUARIO : pode_ter
-    PESSOA ||--o{ SOCIO : pode_ser
-    PESSOA ||--o{ PARTICIPACAO : possui
-    ATIVIDADE ||--o{ GRUPO : organiza
-    GRUPO ||--o{ PARTICIPACAO : recebe
+flowchart TD
+
+    P[Pessoa]
+
+    U[Usuário]
+    S[Sócio]
+    Part[Participação]
+
+    A[Atividade]
+    G[Grupo]
+
+    P --> U
+    P --> S
+    P --> Part
+
+    A --> G
+
+    Part --> G
 ```
 
 ## Entidades Iniciais
