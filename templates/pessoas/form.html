@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}{% if object %}Editar pessoa{% else %}Nova pessoa{% endif %}{% endblock %}
+{% block content %}<section class="panel">
+<a href="{% url 'pessoas:list' %}">← Pessoas</a><h1 style="margin-top:16px">{% if object %}Editar pessoa{% else %}Nova pessoa{% endif %}</h1>
+<p class="muted">Somente o nome completo é obrigatório.</p>
+<form method="post">{% csrf_token %}{{ form.as_p }}<button type="submit">Salvar</button> <a class="button secondary" href="{% url 'pessoas:list' %}">Cancelar</a></form>
+</section>{% endblock %}

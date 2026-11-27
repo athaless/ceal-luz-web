@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
 <section class="panel"><h1>Olá, {{ user.get_short_name|default:user.username }}!</h1><p class="muted">A fundação do sistema está pronta para receber os próximos módulos.</p>
-<div class="cards"><div class="tile"><strong>Pessoas</strong><p>Planejado</p></div><div class="tile"><strong>Atividades e grupos</strong><p>Planejado</p></div><div class="tile"><strong>Matrículas e participações</strong><p>Planejado</p></div></div>
+<div class="cards"><div class="tile"><strong>Pessoas</strong>{% if perms.pessoas.view_pessoa %}<p><a href="{% url 'pessoas:list' %}">Gerenciar pessoas</a></p>{% else %}<p>Sem permissão de acesso</p>{% endif %}</div><div class="tile"><strong>Atividades e grupos</strong><p>Planejado</p></div><div class="tile"><strong>Matrículas e participações</strong><p>Planejado</p></div></div>
 {% if user.is_staff %}<a class="button" href="{% url 'admin:index' %}">Painel administrativo</a>{% endif %}
 </section>{% endblock %}
