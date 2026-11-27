@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Pessoas{% endblock %}
+{% block content %}
+<section class="panel">
+<a href="{% url 'home' %}">← Início</a><h1 style="margin-top:16px">Pessoas</h1>
+<p class="muted">Cadastro central de pessoas do centro.</p>
+<div class="toolbar">
+<form method="get"><input name="q" value="{{ q }}" placeholder="Nome, e-mail ou telefone" aria-label="Pesquisar pessoas">
+<select name="status" aria-label="Situação"><option value="todos" {% if status == 'todos' %}selected{% endif %}>Todos</option><option value="ativos" {% if status == 'ativos' %}selected{% endif %}>Ativos</option><option value="inativos" {% if status == 'inativos' %}selected{% endif %}>Inativos</option></select><button>Pesquisar</button></form>
+{% if perms.pessoas.add_pessoa %}<a class="button" href="{% url 'pessoas:create' %}">+ Nova pessoa</a>{% endif %}
+</div>
+<div class="table-wrap"><table><thead><tr><th>Nome</th><th>Contato</th><th>Situação</th><th>Ações</th></tr></thead><tbody>
+{% for pessoa in pessoas %}<tr><td>{{ pessoa.nome }}</td><td>{{ pessoa.email|default:"—" }}<br>{{ pessoa.telefone }}</td><td><span class="status {% if not pessoa.ativo %}inactive{% endif %}">{{ pessoa.ativo|yesno:"Ativo,Inativo" }}</span></td><td>
+{% if perms.pessoas.change_pessoa %}<a href="{% url 'pessoas:update' pessoa.pk %}">Editar</a> · <form class="inline" method="post" action="{% url 'pessoas:status' pessoa.pk %}">{% csrf_token %}<button class="secondary" name="acao" value="{{ pessoa.ativo|yesno:'inativar,ativar' }}">{{ pessoa.ativo|yesno:"Inativar,Reativar" }}</button></form>{% else %}—{% endif %}
+</td></tr>{% empty %}<tr><td colspan="4">Nenhuma pessoa encontrada.</td></tr>{% endfor %}
+</tbody></table></div>
+<p class="muted">{{ paginator.count }} registro(s)</p>
+{% if is_paginated %}<nav class="pager">{% if page_obj.has_previous %}<a href="?q={{ q|urlencode }}&amp;status={{ status|urlencode }}&amp;page={{ page_obj.previous_page_number }}">Anterior</a>{% endif %}Página {{ page_obj.number }} de {{ paginator.num_pages }}{% if page_obj.has_next %}<a href="?q={{ q|urlencode }}&amp;status={{ status|urlencode }}&amp;page={{ page_obj.next_page_number }}">Próxima</a>{% endif %}</nav>{% endif %}
+</section>{% endblock %}
