@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Entrar{% endblock %}
+{% block content %}
+<section class="panel login"><h1>Bem-vindo</h1><p class="muted">Acesse o sistema com seu usuário e senha.</p>
+<form method="post">{% csrf_token %}{{ form.as_p }}<input type="hidden" name="next" value="{{ next }}"><button type="submit">Entrar</button></form></section>
+{% endblock %}
